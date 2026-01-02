@@ -15,7 +15,7 @@ public class ProfileService {
     private final ProfileRepository profileRepository;
     private final EmailService emailService;
 
-
+//#1
     public ProfileDto registerProfile(ProfileDto profileDto){
         ProfileEntity newProfile =  toEntity(profileDto);
         newProfile.setActivationToken(UUID.randomUUID().toString());
@@ -50,5 +50,16 @@ public class ProfileService {
                 .createdAt(profileEntity.getCreatedAt())
                 .updateAt(profileEntity.getUpdateAt())
                 .build();
+    }
+
+//    #2
+    public  boolean activateProfile(String activationToken){
+        return profileRepository.findByActivationToken(activationToken)
+                .map(profile ->{
+                    profile.setActivationToken(null);
+                    profileRepository.save(profile);
+                    return true;
+                })
+                .orElse(false);
     }
 }
