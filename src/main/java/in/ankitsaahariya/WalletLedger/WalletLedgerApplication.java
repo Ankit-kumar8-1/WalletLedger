@@ -11,5 +11,4 @@ public class WalletLedgerApplication {
         System.out.println("Application started .......");
 	}
 
-
 }

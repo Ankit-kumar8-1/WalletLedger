@@ -43,7 +43,6 @@ public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws
                     jwtAuthenticationFilter,
                     org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class
             );
-
     return httpSecurity.build();
 }
 
