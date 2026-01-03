@@ -1,11 +1,14 @@
 package in.ankitsaahariya.WalletLedger.controller;
 
+import in.ankitsaahariya.WalletLedger.dto.AuthDto;
 import in.ankitsaahariya.WalletLedger.dto.ProfileDto;
 import in.ankitsaahariya.WalletLedger.services.ProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,4 +34,26 @@ public class ProfileController {
         }
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<Map<String, Object>> login(@RequestBody AuthDto authDto) {
+        try {
+
+            if (!profileService.isActive(authDto.getEmail())) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of(
+                        "message", "Account is not active. Please activate your account first."
+                ));
+            }
+
+            Map<String, Object> response =
+                    profileService.authenticateAndGenerateToken(authDto);
+
+            return ResponseEntity.ok(response);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
+                    "message", e.getMessage()
+            ));
+        }
+    }
 }
+
