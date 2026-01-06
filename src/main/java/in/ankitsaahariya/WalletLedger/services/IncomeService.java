@@ -9,6 +9,7 @@ import in.ankitsaahariya.WalletLedger.entity.ProfileEntity;
 import in.ankitsaahariya.WalletLedger.repository.CategoryRepository;
 import in.ankitsaahariya.WalletLedger.repository.IncomeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -68,6 +69,14 @@ public class IncomeService {
         BigDecimal total = incomeRepository.findTotalIncomeByProfileId(profile.getId());
         return total!= null ? total : BigDecimal.ZERO;
     }
+
+    //    Filter Incomes
+    public  List<IncomeDTO> filterIncomes(LocalDate startDate, LocalDate endDate, String keyword , Sort sort){
+        ProfileEntity profile = profileService.getCurrentProfile();
+        List<IncomeEntity> list = incomeRepository.findByProfileIdAndDateBetweenAndNameContainingIgnoreCase(profile.getId(),startDate,endDate,keyword,sort);
+        return  list.stream().map(this::toDTO).toList();
+    }
+
     //    helper
     private IncomeEntity toEntity(IncomeDTO dto, ProfileEntity profile, CategoryEntity category){
         return IncomeEntity.builder()

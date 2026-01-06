@@ -8,6 +8,7 @@ import in.ankitsaahariya.WalletLedger.repository.CategoryRepository;
 import in.ankitsaahariya.WalletLedger.repository.ExpenseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cglib.core.Local;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -70,6 +71,12 @@ public class ExpenseService {
         return total!= null ? total : BigDecimal.ZERO;
     }
 
+//    Filter expenses
+    public  List<ExpenseDTO> filterExpenses(LocalDate startDate, LocalDate endDate, String keyword , Sort sort){
+        ProfileEntity profile = profileService.getCurrentProfile();
+        List<ExpenseEntity> list = expenseRepository.findByProfileIdAndDateBetweenAndNameContainingIgnoreCase(profile.getId(),startDate,endDate,keyword,sort);
+        return  list.stream().map(this::toDTO).toList();
+    }
 
 //    helper
     private ExpenseEntity toEntity(ExpenseDTO dto, ProfileEntity profile, CategoryEntity category){
