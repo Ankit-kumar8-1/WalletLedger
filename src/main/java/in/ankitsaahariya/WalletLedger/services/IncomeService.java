@@ -1,7 +1,9 @@
 package in.ankitsaahariya.WalletLedger.services;
 
+import in.ankitsaahariya.WalletLedger.dto.ExpenseDTO;
 import in.ankitsaahariya.WalletLedger.dto.IncomeDTO;
 import in.ankitsaahariya.WalletLedger.entity.CategoryEntity;
+import in.ankitsaahariya.WalletLedger.entity.ExpenseEntity;
 import in.ankitsaahariya.WalletLedger.entity.IncomeEntity;
 import in.ankitsaahariya.WalletLedger.entity.ProfileEntity;
 import in.ankitsaahariya.WalletLedger.repository.CategoryRepository;
@@ -9,6 +11,7 @@ import in.ankitsaahariya.WalletLedger.repository.IncomeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -50,6 +53,20 @@ public class IncomeService {
             throw new RuntimeException("Unauthorized to delete this Income");
         }
         incomeRepository.delete(entity);
+    }
+
+    //    Get Latest 5 Incomes for current user
+    public List<IncomeDTO> getLatest5IncomesForCurrentUser(){
+        ProfileEntity profile = profileService.getCurrentProfile();
+        List<IncomeEntity> list = incomeRepository.findTop5ByProfileIdOrderByDateDesc(profile.getId());
+        return list.stream().map(this::toDTO).toList();
+    }
+
+    //    Get total incomes for current user
+    public BigDecimal getTotalIncomesForCurrentUser(){
+        ProfileEntity profile = profileService.getCurrentProfile();
+        BigDecimal total = incomeRepository.findTotalIncomeByProfileId(profile.getId());
+        return total!= null ? total : BigDecimal.ZERO;
     }
     //    helper
     private IncomeEntity toEntity(IncomeDTO dto, ProfileEntity profile, CategoryEntity category){
