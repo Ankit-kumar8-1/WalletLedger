@@ -172,24 +172,23 @@ This project sends two automated email notifications using scheduled jobs.
    This email reminds the user to add daily income and expenses.  
 
    
-	
+	<img width="1010" height="351" alt="Daily reminder " src="https://github.com/user-attachments/assets/0851045b-85dd-4404-a859-daf35a3c917a" />
+
 
 *  Daily Expense Summary  
    Method: `sendDailyExpenseSummary`    
    This email sends a daily expense summary in tabular format.  
-    Screenshot
+
+	<img width="1014" height="389" alt="Today expenses summary" src="https://github.com/user-attachments/assets/6033ed0f-2f7e-4256-ab18-d29403f44e22" />
+
 
 Mail configuration is managed using application properties or environment variables.
 
-# Screenshots
+# PostMan Structure 
 
-Add your Postman screenshots here.
-Place images in a `screenshots` folder next to README.
-Use this markdown to show images:
-`![Postman Structure](screenshots/postman-structure.png)`
-`![Auth Requests](screenshots/auth-requests.png)`
-`![Dashboard Response](screenshots/dashboard.png)`
-Replace filenames with your real files.
+
+<img width="242" height="553" alt="postman structure" src="https://github.com/user-attachments/assets/a096799a-3b69-451b-ab38-8be3cf331ae2" />
+
 
 # How to Run Locally
 
