@@ -145,6 +145,7 @@ Default base URL:
   <img width="1071" height="590" alt="Read dashboard 1" src="https://github.com/user-attachments/assets/5df21ddf-decb-4823-ac88-92dd242cad03" />
 
   <img width="1049" height="449" alt="ReadDashboard 2" src="https://github.com/user-attachments/assets/f0fd9b24-e004-41f5-92d5-dffaf178504b" />
+
   
 
 ### Filter Transaction (income/expense)
@@ -152,6 +153,8 @@ Default base URL:
 * `POST /transactions/filter` (Filter Transaction)
 
   <img width="1067" height="615" alt="Filter Income" src="https://github.com/user-attachments/assets/bcd1c37a-de3d-45be-b299-b5fc550b9850" />
+
+---
 
 
 # Authentication Flow
@@ -162,6 +165,8 @@ Default base URL:
 4. User activates account via link.
 5. User logs in and gets JWT.
 6. JWT is required for protected APIs.
+
+---
 
 # Scheduler and Email
 
@@ -189,6 +194,7 @@ Mail configuration is managed using application properties or environment variab
 
 <img width="242" height="553" alt="postman structure" src="https://github.com/user-attachments/assets/a096799a-3b69-451b-ab38-8be3cf331ae2" />
 
+---
 
 # How to Run Locally
 
@@ -199,7 +205,10 @@ Mail configuration is managed using application properties or environment variab
 5. Build and run the app: `mvn spring-boot:run` or run from IDE.
 6. Import Postman collection to test APIs.
 
-# Example application.properties (minimal)
+---
+
+
+# Example application.properties 
 
 ```properties
 # Configure MySQL datasource and Hibernate JPA
@@ -239,6 +248,8 @@ money.manager.frontend.url=http://localhost:5173
 
 Update values before running.
 
+---
+
 # Environment Variables
 
 You can also use env vars for secrets.
@@ -252,47 +263,71 @@ Common keys:
 * `MAIL_PASS`
 * `JWT_SECRET`
 
+---
+
 # Postman Collection
 
-Export your Postman collection and add it to the repo.
-Put it in `postman/WalletLedger.postman_collection.json`.
-Add example environment with base URL and auth token.
+Export the Postman collection used for testing this project.  
+Add the file to the repository at:
 
-# Tests
+`postman/WalletLedger.postman_collection.json`
 
-You tested APIs in Postman.
-Add unit and integration tests later.
-Keep tests for auth, services, and schedulers.
+Also add a Postman environment with:
+- Base API URL  
+- JWT token variable  
 
-# Deployment Notes
-
-* Do not commit secrets.
-* Use environment variables in production.
-* Use a managed MySQL or cloud DB.
-* Configure mail provider for production emails.
-
-# Future Enhancements
-
-* Add UI client (React or Angular).
-* Add monthly and yearly reports.
-* Add more exports (CSV, PDF).
-* Add role-based access and admin features.
-
-# Contributing
-
-* Fork the repo.
-* Create a feature branch.
-* Create pull requests with clear messages.
-
-# License
-
-This project is open for personal and learning use.
-Add a license file if needed.
-
-# Contact
-
-If you need help, add your contact here.
+This helps others test APIs easily.
 
 ---
 
-*Ready to paste.*
+# Tests
+
+All APIs were tested using Postman.  
+Unit and integration tests can be added later.
+
+Recommended test areas:
+- Authentication and JWT  
+- Service layer logic  
+- Scheduler and email services  
+
+---
+
+# Deployment Notes
+
+- Do not commit secrets or credentials.  
+- Use environment variables in production.  
+- Use a managed MySQL or cloud database.  
+- Configure a valid mail provider for email notifications.  
+
+---
+
+# Future Enhancements
+
+- Add frontend UI (React or Angular).  
+- Add monthly and yearly reports.  
+- Add more export options (CSV, PDF).  
+- Add role-based access and admin features.  
+
+---
+
+# Contributing
+
+- Fork the repository.  
+- Create a new feature branch.  
+- Commit changes with clear messages.
+
+--- 
+
+# License
+
+This project is licensed for personal and educational use only.  
+Commercial use is not permitted without permission.
+
+---
+
+# Contact
+
+Name: Ankit  
+Project: WalletLedger  
+Email: ankitk.software@gmail.com  
+GitHub: https://github.com/Ankit-kumar8-1
