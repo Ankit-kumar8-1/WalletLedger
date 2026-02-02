@@ -252,6 +252,9 @@ jwt.expiration=
 money.manager.frontend.url=http://localhost:5173
 ````
 
+## Postman Collection
+This project includes a Postman collection JSON file containing all API endpoints.
+It can be imported into Postman to test and understand the API flow.
 ---
 
 ## License
