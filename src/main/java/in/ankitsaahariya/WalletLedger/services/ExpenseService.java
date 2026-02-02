@@ -7,7 +7,6 @@ import in.ankitsaahariya.WalletLedger.entity.ProfileEntity;
 import in.ankitsaahariya.WalletLedger.repository.CategoryRepository;
 import in.ankitsaahariya.WalletLedger.repository.ExpenseRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cglib.core.Local;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 

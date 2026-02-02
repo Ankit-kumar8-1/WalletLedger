@@ -59,8 +59,8 @@ public class NotificationServices {
 
 
 //    for Daily  Expenses Summary
-//@Scheduled(cron = "0 * * * * *", zone = "IST")   for every minutes
-    @Scheduled(cron = "0 0 23 * * *", zone = "IST")
+@Scheduled(cron = "0 * * * * *", zone = "IST")   //for every minutes
+//    @Scheduled(cron = "0 0 23 * * *", zone = "IST")
 public void sendDailyExpenseSummary() {
     log.info("Job started : sendDailyExpenseSummary()");
 

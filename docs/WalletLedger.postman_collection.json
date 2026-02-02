@@ -1,0 +1,476 @@
+{
+  "info": {
+    "_postman_id": "589de8a7-85db-47ed-8628-e3ffe1eb983a",
+    "name": "WalletLedger",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "48665253",
+    "_collection_link": "https://go.postman.co/collection/48665253-589de8a7-85db-47ed-8628-e3ffe1eb983a?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Register/Login/checkJwt Token",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "fdc326c8-d6d0-42e3-a7e1-102faf8429e7",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "user",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"fullName\": \"Ankit Saahariya\",\r\n  \"email\": \"ankitk.software@gmail.com\",\r\n  \"password\": \"123456\"\r\n\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{WalletLedger}}/register",
+              "host": [
+                "{{WalletLedger}}"
+              ],
+              "path": [
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "fdc326c8-d6d0-42e3-a7e1-102faf8429e7",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "user",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"email\": \"ankitk.software@gmail.com\",\r\n  \"password\": \"123456\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{WalletLedger}}/login",
+              "host": [
+                "{{WalletLedger}}"
+              ],
+              "path": [
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "check jwt token",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer ",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{WalletLedger}}/api/v1.0/test",
+              "host": [
+                "{{WalletLedger}}"
+              ],
+              "path": [
+                "api",
+                "v1.0",
+                "test"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Create category/Update/Read/Read by type(expense,income)",
+      "item": [
+        {
+          "name": "Create Category",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Job\",\r\n  \"type\": \"income\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{WalletLedger}}/categories",
+              "host": [
+                "{{WalletLedger}}"
+              ],
+              "path": [
+                "categories"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Read Category",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{WalletLedger}}/categories",
+              "host": [
+                "{{WalletLedger}}"
+              ],
+              "path": [
+                "categories"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Read categories by type (expense,income)",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{WalletLedger}}/categories/income",
+              "host": [
+                "{{WalletLedger}}"
+              ],
+              "path": [
+                "categories",
+                "income"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Category",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Transport\",\r\n    \"type\": \"expense\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{WalletLedger}}/categories/8",
+              "host": [
+                "{{WalletLedger}}"
+              ],
+              "path": [
+                "categories",
+                "8"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Expenses",
+      "item": [
+        {
+          "name": "Read Expenses",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{WalletLedger}}/expenses",
+              "host": [
+                "{{WalletLedger}}"
+              ],
+              "path": [
+                "expenses"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Expense",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Train\",\r\n  \"categoryId\":8,\r\n  \"amount\" :\"3000\"\r\n\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{WalletLedger}}/expenses",
+              "host": [
+                "{{WalletLedger}}"
+              ],
+              "path": [
+                "expenses"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Expense",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{WalletLedger}}/expenses/8",
+              "host": [
+                "{{WalletLedger}}"
+              ],
+              "path": [
+                "expenses",
+                "8"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Incomes",
+      "item": [
+        {
+          "name": "Read Incomes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{WalletLedger}}/Incomes",
+              "host": [
+                "{{WalletLedger}}"
+              ],
+              "path": [
+                "Incomes"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Income",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"full year Bonus\",\r\n  \"categoryId\":9,\r\n  \"amount\" :\"70000\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{WalletLedger}}/Incomes",
+              "host": [
+                "{{WalletLedger}}"
+              ],
+              "path": [
+                "Incomes"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Income",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"IPhone 16Pro Max 5g\",\r\n  \"categoryId\":2,\r\n  \"amount\" :\"399\"\r\n\r\n}"
+            },
+            "url": {
+              "raw": "{{WalletLedger}}/Incomes/6",
+              "host": [
+                "{{WalletLedger}}"
+              ],
+              "path": [
+                "Incomes",
+                "6"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Read Dashboard Data",
+      "item": [
+        {
+          "name": "Dadhboard Data",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"IPhone 16Pro Max 5g\",\r\n  \"categoryId\":2,\r\n  \"amount\" :\"399\"\r\n\r\n}"
+            },
+            "url": {
+              "raw": "{{WalletLedger}}/dashboard",
+              "host": [
+                "{{WalletLedger}}"
+              ],
+              "path": [
+                "dashboard"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Filter Transaction (Income/expense)",
+      "item": [
+        {
+          "name": "Filter Transaction",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"type\": \"income\",\r\n    \"keyword\" :\"year\",\r\n    \"sortField\": \"amount\",\r\n    \"sortOrder\": \"desc\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{WalletLedger}}/filter",
+              "host": [
+                "{{WalletLedger}}"
+              ],
+              "path": [
+                "filter"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbmtpdGsuc29mdHdhcmVAZ21haWwuY29tIiwiaWF0IjoxNzY3ODQxMzA5LCJleHAiOjE3Njc5Mjc3MDl9.tVsCSg7-3v73knvT8bIwIpEsY249wJcE0iNgNNZwkYY",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "WalletLedger",
+      "value": ""
+    }
+  ]
+}
