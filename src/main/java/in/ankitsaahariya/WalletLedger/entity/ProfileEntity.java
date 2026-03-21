@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -23,7 +22,7 @@ public class ProfileEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String fullName;
-    @Column(unique = true)
+    @Column(unique = true,nullable = false)
     private String email;
     private String password;
     private String profileImageUrl;
@@ -33,7 +32,12 @@ public class ProfileEntity {
     @UpdateTimestamp
     private LocalDateTime updateAt;
     private Boolean isActive;
+
+    @Column(name = "activation_token", nullable = true, length = 100)
     private String activationToken;
+
+    @Column(name = "activation_token_expiry_date")
+    private LocalDateTime activationTokenExpiryDate;
 
     @PrePersist
     public void prePersist(){

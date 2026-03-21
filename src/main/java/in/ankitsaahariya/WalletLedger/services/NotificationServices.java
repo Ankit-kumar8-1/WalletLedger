@@ -47,11 +47,11 @@ public class NotificationServices {
                             "</body>" +
                             "</html>";
 
-            emailService.sendEmail(
-                    profile.getEmail(),
-                    "Daily Reminder : Add your income Expenses ",
-                    body
-            );
+//            emailService.sendEmail(
+//                    profile.getEmail(),
+//                    "Daily Reminder : Add your income Expenses ",
+//                    body
+//            );
         }
 
         log.info("Job finished : sendDailyIncomeExpenseReminder()");
@@ -112,11 +112,11 @@ public void sendDailyExpenseSummary() {
         table.append("<p>Thanks,<br>WalletLedger Team</p>");
         table.append("</body></html>");
 
-        emailService.sendEmail(
-                profile.getEmail(),
-                "Today Expense Summary",
-                table.toString()
-        );
+//        emailService.sendEmail(
+//                profile.getEmail(),
+//                "Today Expense Summary",
+//                table.toString()
+//        );
     }
 
     log.info("Job finished : sendDailyExpenseSummary()");

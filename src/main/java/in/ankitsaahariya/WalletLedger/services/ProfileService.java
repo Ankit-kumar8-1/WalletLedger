@@ -1,11 +1,14 @@
 package in.ankitsaahariya.WalletLedger.services;
 
+import in.ankitsaahariya.WalletLedger.dto.ApiResponse;
 import in.ankitsaahariya.WalletLedger.dto.AuthDto;
 import in.ankitsaahariya.WalletLedger.dto.ProfileDto;
 import in.ankitsaahariya.WalletLedger.entity.ProfileEntity;
+import in.ankitsaahariya.WalletLedger.exceptions.UserAlreadyExistsException;
 import in.ankitsaahariya.WalletLedger.repository.ProfileRepository;
 import in.ankitsaahariya.WalletLedger.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -14,6 +17,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
+import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.Map;
 import java.util.UUID;
 
@@ -27,28 +33,44 @@ public class ProfileService {
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
 //#1
-    public ProfileDto registerProfile(ProfileDto profileDto){
+    public ApiResponse registerProfile(ProfileDto profileDto){
+        if (profileRepository.existsByEmail(profileDto.getEmail())){
+            throw   new UserAlreadyExistsException("User Already Exists !");
+        }
+
         ProfileEntity newProfile =  toEntity(profileDto);
-        newProfile.setActivationToken(UUID.randomUUID().toString());
-        newProfile= profileRepository.save(newProfile);
-//        send activation email
-        String activationLink= "http://localhost:8080/api/v1.0/activate?token=" +newProfile.getActivationToken();
-        String subject = "Activate your WalletLedger account";
-        String body = "Click on the following link to activate your account:" + activationLink;
-        emailService.sendEmail(newProfile.getEmail(),subject,body);
-        return  toDTO(newProfile);
+        String token = generateSecureActivationToken();
+        newProfile.setActivationToken(token);
+        newProfile.setActivationTokenExpiryDate(LocalDateTime.now().plusDays(1));
+        profileRepository.save(newProfile);
+        emailService.sendActivationEmail(
+                newProfile.getEmail(),
+                newProfile.getActivationToken(),
+                newProfile.getFullName());
+
+        return  ApiResponse.builder()
+                .status(HttpStatus.CREATED.value())
+                .timeStamp(LocalDateTime.now())
+                .message("Registration successful! Please check your email to activate your account.")
+                .build();
 
     }
 
-    public ProfileEntity toEntity(ProfileDto profileDto){
+    private String generateSecureActivationToken() {
+        byte[] randomBytes = new byte[32];
+        new SecureRandom().nextBytes(randomBytes);
+        return  Base64.getUrlEncoder().withoutPadding().encodeToString(randomBytes);
+    }
+
+    public ProfileEntity toEntity(ProfileDto request){
         return ProfileEntity.builder()
-                .id(profileDto.getId())
-                .fullName((profileDto.getFullName()))
-                .email(profileDto.getEmail())
-                .password(passwordEncoder.encode(profileDto.getPassword()))
-                .profileImageUrl(profileDto.getProfileImageUrl())
-                .createdAt(profileDto.getCreatedAt())
-                .updateAt(profileDto.getUpdateAt())
+                .id(request.getId())
+                .fullName((request.getFullName()))
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .profileImageUrl(request.getProfileImageUrl())
+                .createdAt(request.getCreatedAt())
+                .updateAt(request.getUpdateAt())
                 .build();
     }
 

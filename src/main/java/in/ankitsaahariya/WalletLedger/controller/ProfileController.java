@@ -1,5 +1,6 @@
 package in.ankitsaahariya.WalletLedger.controller;
 
+import in.ankitsaahariya.WalletLedger.dto.ApiResponse;
 import in.ankitsaahariya.WalletLedger.dto.AuthDto;
 import in.ankitsaahariya.WalletLedger.dto.ProfileDto;
 import in.ankitsaahariya.WalletLedger.services.ProfileService;
@@ -18,9 +19,9 @@ public class ProfileController {
 
 //    #1
     @PostMapping("/register")
-    public ResponseEntity<ProfileDto> registerProfile(@RequestBody ProfileDto profileDto){
-        ProfileDto registerProfile =  profileService.registerProfile(profileDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(registerProfile);
+    public ResponseEntity<ApiResponse> registerProfile(@RequestBody ProfileDto request){
+        ApiResponse response = profileService.registerProfile(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
 //    #2
