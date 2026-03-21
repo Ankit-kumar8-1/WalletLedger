@@ -1,6 +1,6 @@
 package in.ankitsaahariya.WalletLedger.controller;
 
-import in.ankitsaahariya.WalletLedger.services.DashBoardService;
+import in.ankitsaahariya.WalletLedger.servicesImp.DashBoardService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

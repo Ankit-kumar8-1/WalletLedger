@@ -1,7 +1,7 @@
 package in.ankitsaahariya.WalletLedger.controller;
 
 import in.ankitsaahariya.WalletLedger.dto.CategoryDTO;
-import in.ankitsaahariya.WalletLedger.services.CategoryService;
+import in.ankitsaahariya.WalletLedger.servicesImp.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

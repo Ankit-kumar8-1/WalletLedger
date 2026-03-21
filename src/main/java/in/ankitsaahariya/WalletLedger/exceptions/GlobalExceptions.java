@@ -14,13 +14,30 @@ public class GlobalExceptions {
 
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<ErrorResponse> UserAlreadyExists(UserAlreadyExistsException ex , HttpServletRequest request){
-        ErrorResponse errorResponse = ErrorResponse.builder()
+        return  buildError(HttpStatus.CONFLICT,ex.getMessage(),request);
+    }
+
+    @ExceptionHandler(InvalidTokenException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidToken(
+            InvalidTokenException ex, HttpServletRequest request) {
+        return buildError(HttpStatus.BAD_REQUEST, ex.getMessage(), request);
+    }
+
+    @ExceptionHandler(TokenExpiredException.class)
+    public ResponseEntity<ErrorResponse> handleTokenExpired(
+            TokenExpiredException ex, HttpServletRequest request) {
+        return buildError(HttpStatus.GONE, ex.getMessage(), request);
+    }
+
+    private ResponseEntity<ErrorResponse> buildError(
+            HttpStatus status, String message, HttpServletRequest request) {
+        ErrorResponse error = ErrorResponse.builder()
                 .timeStamp(LocalDateTime.now())
-                .status(HttpStatus.CONFLICT.value())
-                .message(ex.getMessage())
-                .error(HttpStatus.CONFLICT.getReasonPhrase())
+                .status(status.value())
+                .message(message)
+                .error(status.getReasonPhrase())
                 .path(request.getServletPath())
                 .build();
-        return new ResponseEntity<>(errorResponse,HttpStatus.CONFLICT);
+        return new ResponseEntity<>(error, status);
     }
 }

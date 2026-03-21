@@ -1,13 +1,11 @@
-package in.ankitsaahariya.WalletLedger.services;
+package in.ankitsaahariya.WalletLedger.servicesImp;
 
 import in.ankitsaahariya.WalletLedger.dto.CategoryDTO;
 import in.ankitsaahariya.WalletLedger.entity.CategoryEntity;
 import in.ankitsaahariya.WalletLedger.entity.ProfileEntity;
 import in.ankitsaahariya.WalletLedger.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -17,12 +15,12 @@ import java.util.List;
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
-    private final ProfileService profileService;
+    private final ProfileServiceImpl profileServiceImpl;
 
 
 //    save category
     public  CategoryDTO saveCategory(CategoryDTO categoryDTO){
-        ProfileEntity profile = profileService.getCurrentProfile();
+        ProfileEntity profile = profileServiceImpl.getCurrentProfile();
         if (categoryRepository.existsByNameAndProfileId(categoryDTO.getName(),profile.getId())) {
             throw new RuntimeException("Category with this name already exists");
         }
@@ -33,21 +31,21 @@ public class CategoryService {
 
 //    get Category for current user
     public List<CategoryDTO> getCategoriesCurrentUser(){
-        ProfileEntity profile =  profileService.getCurrentProfile();
+        ProfileEntity profile =  profileServiceImpl.getCurrentProfile();
         List<CategoryEntity> categories = categoryRepository.findByProfileId(profile.getId());
         return categories.stream().map(this::toDto).toList();
     }
 
 //    Get categories by type for current users
     public List<CategoryDTO> getCategoriesByTypeForCurrentUser(String type){
-        ProfileEntity profile = profileService.getCurrentProfile();
+        ProfileEntity profile = profileServiceImpl.getCurrentProfile();
         List<CategoryEntity> entities = categoryRepository.findByTypeAndProfileId(type,profile.getId());
         return entities.stream().map(this::toDto).toList();
     }
 
 //    Update categories
     public CategoryDTO updateCategory(Long categoryId, CategoryDTO dto){
-        ProfileEntity profile = profileService.getCurrentProfile();
+        ProfileEntity profile = profileServiceImpl.getCurrentProfile();
         CategoryEntity existingCategory = categoryRepository.findByIdAndProfileId(categoryId,profile.getId())
                 .orElseThrow(()-> new RuntimeException("Category not found !"));
         existingCategory.setName(dto.getName());

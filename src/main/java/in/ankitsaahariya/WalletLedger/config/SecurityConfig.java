@@ -1,7 +1,7 @@
 package in.ankitsaahariya.WalletLedger.config;
 
 import in.ankitsaahariya.WalletLedger.security.JwtAuthenticationFilter;
-import in.ankitsaahariya.WalletLedger.services.AppUserDetailsService;
+import in.ankitsaahariya.WalletLedger.servicesImp.AppUserDetailsService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

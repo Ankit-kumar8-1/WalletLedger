@@ -1,6 +1,6 @@
 package in.ankitsaahariya.WalletLedger.security;
 
-import in.ankitsaahariya.WalletLedger.services.AppUserDetailsService;
+import in.ankitsaahariya.WalletLedger.servicesImp.AppUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

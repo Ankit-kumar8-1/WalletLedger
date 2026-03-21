@@ -1,4 +1,4 @@
-package in.ankitsaahariya.WalletLedger.services;
+package in.ankitsaahariya.WalletLedger.servicesImp;
 
 import in.ankitsaahariya.WalletLedger.dto.ExpenseDTO;
 import in.ankitsaahariya.WalletLedger.dto.IncomeDTO;
@@ -11,7 +11,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static java.util.stream.Stream.concat;
 
@@ -21,10 +20,10 @@ public class DashBoardService {
 
     private final IncomeService incomeService;
     private final ExpenseService expenseService;
-    private  final  ProfileService profileService;
+    private  final ProfileServiceImpl profileServiceImpl;
 
     public Map<String,Object> getDashboardData(){
-        ProfileEntity profile = profileService.getCurrentProfile();
+        ProfileEntity profile = profileServiceImpl.getCurrentProfile();
         Map<String,Object> returnValue = new LinkedHashMap<>();
         List<IncomeDTO> latestIncomes = incomeService.getLatest5IncomesForCurrentUser();
         List<ExpenseDTO> latestExpense = expenseService.getLatest5ExpensesForCurrentUser();
