@@ -1,6 +1,8 @@
 package in.ankitsaahariya.WalletLedger.controller;
 
 import in.ankitsaahariya.WalletLedger.dto.ApiResponse;
+import in.ankitsaahariya.WalletLedger.dto.AuthDto;
+import in.ankitsaahariya.WalletLedger.dto.LoginRequest;
 import in.ankitsaahariya.WalletLedger.dto.ProfileDto;
 import in.ankitsaahariya.WalletLedger.services.ProfileService;
 import lombok.RequiredArgsConstructor;
@@ -34,27 +36,11 @@ public class ProfileController {
                 .build());
     }
 
-//    @PostMapping("/login")
-//    public ResponseEntity<Map<String, Object>> login(@RequestBody AuthDto authDto) {
-//        try {
-//
-//            if (!profileService.isActive(authDto.getEmail())) {
-//                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of(
-//                        "message", "Account is not active. Please activate your account first."
-//                ));
-//            }
-//
-//            Map<String, Object> response =
-//                    profileServiceImpl.authenticateAndGenerateToken(authDto);
-//
-//            return ResponseEntity.ok(response);
-//
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
-//                    "message", e.getMessage()
-//            ));
-//        }
-//    }
+    @PostMapping("/login")
+    public  ResponseEntity<AuthDto> login(@RequestBody LoginRequest request){
+        AuthDto response = profileService.login(request);
+        return ResponseEntity.ok(response);
+    }
 
     @GetMapping("/test")
     public  String  test (){

@@ -16,6 +16,8 @@ public class EmailService {
     @Value("${spring.mail.properties.mail.smtp.from}")
     private String fromEmail;
 
+
+
     @Async
     public void sendActivationEmail(String toEmail, String token, String name) {
         try {

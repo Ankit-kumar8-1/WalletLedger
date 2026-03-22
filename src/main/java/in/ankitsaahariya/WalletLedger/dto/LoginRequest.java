@@ -1,17 +1,16 @@
 package in.ankitsaahariya.WalletLedger.dto;
 
 
+import jakarta.persistence.SecondaryTable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class AuthDto {
-    private ProfileDto user;
+public class LoginRequest {
+
+    private String  email;
+
     private String password;
-    private String token;
 }

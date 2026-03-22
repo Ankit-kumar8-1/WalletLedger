@@ -29,6 +29,20 @@ public class GlobalExceptions {
         return buildError(HttpStatus.GONE, ex.getMessage(), request);
     }
 
+    @ExceptionHandler(DisabledException.class)
+    public ResponseEntity<ErrorResponse> handleDisabled(
+            DisabledException ex, HttpServletRequest request) {
+        return buildError(HttpStatus.FORBIDDEN,
+                "Please activate your account via email first", request);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ErrorResponse> handleBadCredentials(
+            BadCredentialsException ex, HttpServletRequest request) {
+        return buildError(HttpStatus.UNAUTHORIZED,
+                "Invalid email or password", request);
+    }
+
     private ResponseEntity<ErrorResponse> buildError(
             HttpStatus status, String message, HttpServletRequest request) {
         ErrorResponse error = ErrorResponse.builder()

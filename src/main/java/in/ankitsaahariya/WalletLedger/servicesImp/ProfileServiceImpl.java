@@ -2,6 +2,7 @@ package in.ankitsaahariya.WalletLedger.servicesImp;
 
 import in.ankitsaahariya.WalletLedger.dto.ApiResponse;
 import in.ankitsaahariya.WalletLedger.dto.AuthDto;
+import in.ankitsaahariya.WalletLedger.dto.LoginRequest;
 import in.ankitsaahariya.WalletLedger.dto.ProfileDto;
 import in.ankitsaahariya.WalletLedger.entity.ProfileEntity;
 import in.ankitsaahariya.WalletLedger.exceptions.InvalidTokenException;
@@ -13,6 +14,8 @@ import in.ankitsaahariya.WalletLedger.services.ProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,11 +39,20 @@ public class ProfileServiceImpl implements ProfileService {
     private final JwtUtil jwtUtil;
 
     @Override
-    public ApiResponse registerProfile(ProfileDto profileDto){
-        if (profileRepository.existsByEmail(profileDto.getEmail())){
+    public ApiResponse registerProfile(ProfileDto request){
+        if (profileRepository.existsByEmail(request.getEmail())){
             throw   new UserAlreadyExistsException("User Already Exists !");
         }
-        ProfileEntity newProfile =  toEntity(profileDto);
+        ProfileEntity newProfile =  ProfileEntity.builder()
+                .id(request.getId())
+                .fullName((request.getFullName()))
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .profileImageUrl(request.getProfileImageUrl())
+                .createdAt(request.getCreatedAt())
+                .updateAt(request.getUpdateAt())
+                .build();
+
         String token = generateSecureActivationToken();
         newProfile.setActivationToken(token);
         newProfile.setActivationTokenExpiryDate(LocalDateTime.now().plusHours(24));
@@ -58,34 +70,7 @@ public class ProfileServiceImpl implements ProfileService {
 
     }
 
-    private String generateSecureActivationToken() {
-        byte[] randomBytes = new byte[32];
-        new SecureRandom().nextBytes(randomBytes);
-        return  Base64.getUrlEncoder().withoutPadding().encodeToString(randomBytes);
-    }
 
-    public ProfileEntity toEntity(ProfileDto request){
-        return ProfileEntity.builder()
-                .id(request.getId())
-                .fullName((request.getFullName()))
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .profileImageUrl(request.getProfileImageUrl())
-                .createdAt(request.getCreatedAt())
-                .updateAt(request.getUpdateAt())
-                .build();
-    }
-
-    public ProfileDto toDTO(ProfileEntity profileEntity){
-        return ProfileDto.builder()
-                .id(profileEntity.getId())
-                .fullName((profileEntity.getFullName()))
-                .email(profileEntity.getEmail())
-                .profileImageUrl(profileEntity.getProfileImageUrl())
-                .createdAt(profileEntity.getCreatedAt())
-                .updateAt(profileEntity.getUpdateAt())
-                .build();
-    }
 
 
     @Override
@@ -103,12 +88,36 @@ public class ProfileServiceImpl implements ProfileService {
         profileRepository.save(profile);
     }
 
-//    3
-    public  boolean isActive(String email){
-        return profileRepository.findByEmail(email)
-                .map(ProfileEntity::getIsActive)
-                .orElse(false);
+    @Override
+    public AuthDto login(LoginRequest request) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getEmail(),
+                            request.getPassword()
+                    )
+            );
+
+            if (!authentication.isAuthenticated()) {
+                throw new RuntimeException("Authentication failed");
+            }
+
+        } catch (DisabledException ex) {
+            throw new RuntimeException("Account is disabled. Please verify your email.");
+        } catch (BadCredentialsException ex) {
+            throw new RuntimeException("Invalid email or password.");
+        } catch (Exception ex) {
+            throw new RuntimeException("An error occurred during login. Please try again later.");
+        }
+
+        String token = jwtUtil.generateToken(request.getEmail());
+
+        return AuthDto.builder()
+                .token(token)
+                .user(getPublicProfile(request.getEmail()))
+                .build();
     }
+
 
     public  ProfileEntity getCurrentProfile(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -124,7 +133,6 @@ public class ProfileServiceImpl implements ProfileService {
             currentUser = profileRepository.findByEmail(email)
                     .orElseThrow(()-> new UsernameNotFoundException("Profile not found with email:"+ email));
         }
-
         return ProfileDto.builder()
                 .id(currentUser.getId())
                 .fullName(currentUser.getFullName())
@@ -135,17 +143,13 @@ public class ProfileServiceImpl implements ProfileService {
                 .build();
     }
 
-    public Map<String,Object> authenticateAndGenerateToken(AuthDto authDto){
-        try{
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authDto.getEmail(),authDto.getPassword()));
-//            Generate jwt token
-            String token  = jwtUtil.generateToken(authDto.getEmail());
-            return Map.of(
-                    "token",token,
-                    "user",getPublicProfile(authDto.getEmail())
-            );
-        }catch (Exception e){
-            throw  new RuntimeException("Invalid email or Password");
-        }
+    private String generateSecureActivationToken() {
+        byte[] randomBytes = new byte[32];
+        new SecureRandom().nextBytes(randomBytes);
+        return  Base64.getUrlEncoder().withoutPadding().encodeToString(randomBytes);
     }
+
+
+
+
 }

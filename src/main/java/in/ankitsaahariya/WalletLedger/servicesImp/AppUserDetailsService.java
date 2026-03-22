@@ -24,6 +24,7 @@ public class AppUserDetailsService implements UserDetailsService {
         return User.builder()
                 .username(existingProfile.getEmail())
                 .password(existingProfile.getPassword())
+                .disabled(!existingProfile.getIsActive())
                 .authorities(Collections.emptyList())
                 .build();
     }
