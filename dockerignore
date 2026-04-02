@@ -1,0 +1,10 @@
+target/
+.git/
+.idea/
+.mvn/
+*.md
+*.log
+.env
+.DS_Store
+```
+```

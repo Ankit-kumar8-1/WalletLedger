@@ -72,7 +72,6 @@ public class ProfileServiceImpl implements ProfileService {
 
 
 
-
     @Override
     public  void  activateProfile(String activationToken){
         ProfileEntity profile = profileRepository.findByActivationToken(activationToken)
@@ -148,6 +147,9 @@ public class ProfileServiceImpl implements ProfileService {
         new SecureRandom().nextBytes(randomBytes);
         return  Base64.getUrlEncoder().withoutPadding().encodeToString(randomBytes);
     }
+
+
+
 
 
 

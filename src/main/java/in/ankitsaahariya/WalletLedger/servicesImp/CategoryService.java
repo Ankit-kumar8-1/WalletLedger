@@ -17,7 +17,7 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final ProfileServiceImpl profileServiceImpl;
 
-
+    
 //    save category
     public  CategoryDTO saveCategory(CategoryDTO categoryDTO){
         ProfileEntity profile = profileServiceImpl.getCurrentProfile();
