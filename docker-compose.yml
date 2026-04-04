@@ -1,0 +1,62 @@
+services:
+
+  mysql:
+    image: mysql:8.0
+    container_name: walltledger-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: walletledgerdb
+      MYSQL_USER: ankit
+      MYSQL_PASSWORD: ankit123
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - walltledger-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping",
+             "-h", "localhost",
+             "-u", "root",
+             "-proot123"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: walltledger-mailhog
+    restart: unless-stopped
+    ports:
+      - "1025:1025"    # SMTP port — Spring Boot emails yahan bhejega
+      - "8025:8025"    # Web UI — Browser mein emails dekho!
+    networks:
+      - walltledger-network
+
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: walltledger-app
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - walltledger-network
+
+
+networks:
+  walltledger-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
